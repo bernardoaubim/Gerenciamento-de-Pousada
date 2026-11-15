@@ -1,9 +1,12 @@
 import java.util.Scanner;
 
 public class SistemaPousada {
+    static Pousada pousada = new Pousada();
 
     static Scanner sc = new Scanner(System.in);
     public static void main(String[] args) {
+
+        pousada.carregaDados();
 
         int opcao = -1;
 
@@ -30,7 +33,11 @@ public class SistemaPousada {
             switch (opcao) {
 
                 case 1:
-                    consultarDisponibilidade();
+                    
+                    Data data = new Data(Teclado.leString("Informe a data (dd/mm/aaaa): "));
+                    int nQuarto = Teclado.leInt("Informe o número do quarto: ");
+
+                    consultarDisponibilidade(data, nQuarto);
                     break;
 
                 case 2:
@@ -61,11 +68,12 @@ public class SistemaPousada {
                     salvar();
                     break;
 
-                case 0:
                
+                case 0:
+                    pousada.salvaDados();
                     System.out.println("Encerrando o sistema...");
                     break;
-
+                 
                 default:
                     System.out.println("Opção inválida!");
                     break;
@@ -75,7 +83,14 @@ public class SistemaPousada {
         sc.close();
     }
 
-    static void consultarDisponibilidade() {}
+    public static void consultarDisponibilidade(Data data, int nQuarto) {
+        if (pousada.consultaDisponibilidadeP(data, nQuarto)){
+           Quarto quarto = pousada.getQuarto(nQuarto);
+           System.out.println("Quarto disponível. Seguem os respectivos dados:");
+           quarto.exibeDadosQ();
+        }
+
+    }
 
     static void consultarReserva() {}
 

@@ -133,4 +133,8 @@ public class Quarto {
         return String.format("Quarto Nº: %d | Categoria: %s | Diária: R$ %.2f",
                 numero, nomeCategoria(), diaria);
     }
+
+    public void exibeDadosQ() {
+        System.out.println(this);
+    }
 }
