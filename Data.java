@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
 
 public class Data {
@@ -19,9 +20,15 @@ public class Data {
 
     public void deserializar(String texto) {
         String[] campos = texto.trim().split(separador);
-        setAno(Integer.parseInt(campos[2]));
-        setMes(Integer.parseInt(campos[1]));
-        setDia(Integer.parseInt(campos[0]));
+        if (campos.length != 3)
+            throw new IllegalArgumentException("Data inválida, use dd/mm/aaaa: " + texto);
+        try {
+            setAno(Integer.parseInt(campos[2].trim()));
+            setMes(Integer.parseInt(campos[1].trim()));
+            setDia(Integer.parseInt(campos[0].trim()));
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Data inválida, use dd/mm/aaaa: " + texto);
+        }
     }
 
     public String serializar() {
@@ -52,8 +59,11 @@ public class Data {
         this.mes = mes;
     }
 
+    // Valida o dia conforme o mês e o ano (ex.: 31/02 e 29/02 em ano não bissexto
+    // são inválidos)
     public void setDia(int dia) {
-        if (dia < 1 || dia > 31)
+        int ultimoDiaDoMes = YearMonth.of(ano, mes).lengthOfMonth();
+        if (dia < 1 || dia > ultimoDiaDoMes)
             throw new IllegalArgumentException("Dia inválido: " + dia);
         this.dia = dia;
     }
@@ -68,11 +78,9 @@ public class Data {
     }
 
     public int diasAte(Data outra) {
-        LocalDate inicio = LocalDate.of(ano, mes, dia); // Linha para transformar Data (nossa classe) em LocalDate
-                                                        // (classe própria do java)
+        LocalDate inicio = LocalDate.of(ano, mes, dia); // Transforma Data (nossa classe) em LocalDate (classe do Java)
         LocalDate fim = LocalDate.of(outra.ano, outra.mes, outra.dia);
-        return (int) ChronoUnit.DAYS.between(inicio, fim); // esse metodo da biblioteca calcula a diferença de dias
-                                                           // entre duas datas
+        return (int) ChronoUnit.DAYS.between(inicio, fim); // Calcula a diferença de dias entre duas datas
     }
 
     @Override

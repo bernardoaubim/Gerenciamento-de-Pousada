@@ -36,7 +36,8 @@ public class Quarto {
         setDiaria(Double.parseDouble(campos[2]));
 
         limpaConsumo();
-        for (int i = 3; i < campos.length; i++) { // Aqui coloquei i=3 para percorrer a partir do indice 3 do vetor que é onde tem os códigos do produto
+        for (int i = 3; i < campos.length; i++) { // Aqui coloquei i=3 para percorrer a partir do indice 3 do vetor que
+                                                  // é onde tem os códigos do produto
             int codigo = Integer.parseInt(campos[i].trim());
             Produto produto = buscaProdutoPorCodigo(codigo, produtos);
             if (produto != null) {
