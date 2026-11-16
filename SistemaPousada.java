@@ -120,7 +120,18 @@ public class SistemaPousada {
         pousada.realizaCheckOut(cliente);
     }
 
-    static void registrarConsumo() {}
+    static void registrarConsumo() {
+        String cliente = Teclado.leString("Informe o nome do cliente: ");
+
+
+        pousada.listaProdutosDisponiveis();
+
+        int codigo = Teclado.leInt("\nInforme o código do produto desejado: ");
+        
+        Produto produto = pousada.getProduto(codigo);
+
+        pousada.registrarConsumo(cliente, produto);
+    }
 
     static void salvar() {}
 }
