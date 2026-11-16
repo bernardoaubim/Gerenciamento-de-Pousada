@@ -61,25 +61,24 @@ public class Pousada {
         }
     }
     public void salvaDados() {}
-    public boolean consultarDisponibilidade(Data data, Quarto quarto) {
+    public void consultarDisponibilidade(Data data, Quarto quarto) {
 
-        if (quarto == null) {
-           
-            System.out.println("Quarto não encontrado. Verifique parâmetros.");
-            return false;
+    if (quarto == null) {
+        System.out.println("Quarto não encontrado. Verifique parâmetros.");
+        return;
+    }
+
+    int nQuarto = quarto.getNumero();
+
+    for (Reserva r : reservas) {
+        if (r.getQuarto().getNumero() == nQuarto && r.ocupaData(data)) {
+            System.out.println("Quarto indisponível.");
+            return;
         }
         
-        int nQuarto = quarto.getNumero();
-
-        for (Reserva r : reservas) {
-           if (r.getQuarto().getNumero() == nQuarto
-            && r.ocupaData(data)) {
-               
-                System.out.println("Quarto indisponível.");
-                return false;
-            }
-        }
-        return true;
+        System.out.println("Quarto disponível. Seguem os respectivos dados:");
+        quarto.exibeDadosQ();
+    }
     }
     public ArrayList<Reserva> consultaReserva(Data data, String cliente, Quarto quarto) {
         

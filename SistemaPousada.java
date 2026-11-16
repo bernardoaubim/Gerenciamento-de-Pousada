@@ -28,44 +28,18 @@ public class SistemaPousada {
 
             switch (opcao) {
 
-                case 1: {
-                    
-                    Data data = new Data(Teclado.leString("Informe a data (dd/mm/aaaa): "));
-                    Quarto quarto = pousada.getQuarto(Teclado.leInt("Informe o número do quarto: "));
-
-                    consultarDisponibilidade(data, quarto);
+                case 1: 
+                    consultarDisponibilidade();
+                    break;               
+                case 2: 
+                    consultarReserva();
+                    break;               
+                case 3: 
+                    realizarReserva();
+                    break;               
+                case 4: 
+                    cancelarReserva(); 
                     break;
-                }
-                case 2: {
-
-                    String textoData = Teclado.leString("Informe a data ou Enter para ignorar: ");
-                    Data data = textoData.isEmpty() ? null : new Data(textoData);
-
-                    String cliente = Teclado.leString("Informe o nome do cliente ou Enter para ignorar: ");
-                        if (cliente.trim().isEmpty()) cliente = null;
-
-                    String textoQuarto = Teclado.leString("Informe o número do quarto ou Enter para ignorar: ");
-                    Quarto quarto = textoQuarto.isEmpty() ? null : pousada.getQuarto(Integer.parseInt(textoQuarto));
-
-                    consultarReserva(data, quarto, cliente);
-                    break;
-                }
-                case 3: {
-
-                    Data dtInicio = new Data(Teclado.leString("Informe a data inicial (dd/mm/aaaa): "));
-                    Data dtFim = new Data(Teclado.leString("Informe a data final (dd/mm/aaaa): "));
-                    String cliente =  Teclado.leString("Informe o nome do cliente: ");
-                    Quarto quarto = pousada.getQuarto(Teclado.leInt("Informe o número do quarto: "));
-
-                    realizarReserva(dtInicio, dtFim, cliente, quarto);
-                    break;
-                }
-                case 4: {
-                    String cliente =  Teclado.leString("Informe o nome do cliente: ");
-                    
-                    cancelarReserva(cliente); 
-                    break;
-                }
                 case 5:
                     realizarCheckIn();
                     break;
@@ -93,28 +67,44 @@ public class SistemaPousada {
             }
         }
     }
-    public static void consultarDisponibilidade(Data data, Quarto quarto) {
-        if (pousada.consultarDisponibilidade(data, quarto)){
-           System.out.println("Quarto disponível. Seguem os respectivos dados:");
-           quarto.exibeDadosQ();
-        }
-    }
-    public static void consultarReserva(Data data, Quarto quarto, String cliente) {
-        ArrayList<Reserva> encontradas = pousada.consultaReserva(data, cliente, quarto);
+    public static void consultarDisponibilidade() {
+            Data data = new Data(Teclado.leString("Informe a data (dd/mm/aaaa): "));
+            Quarto quarto = pousada.getQuarto(Teclado.leInt("Informe o número do quarto: "));
 
-     if (encontradas.isEmpty()) {
-            System.out.println("Não há reservas para os parâmetros informados.");
-        } else {
-            for (Reserva reserva : encontradas) {
-                System.out.println(reserva);
+            pousada.consultarDisponibilidade(data, quarto);
+        }
+    public static void consultarReserva() {
+        String textoData = Teclado.leString("Informe a data ou Enter para ignorar: ");
+        Data data = textoData.isEmpty() ? null : new Data(textoData);
+
+        String cliente = Teclado.leString("Informe o nome do cliente ou Enter para ignorar: ");
+            if (cliente.trim().isEmpty()) cliente = null;
+
+        String textoQuarto = Teclado.leString("Informe o número do quarto ou Enter para ignorar: ");
+        Quarto quarto = textoQuarto.isEmpty() ? null : pousada.getQuarto(Integer.parseInt(textoQuarto));
+
+        ArrayList<Reserva> encontradas = pousada.consultaReserva(data, cliente, quarto);
+            if (encontradas.isEmpty()) {
+                System.out.println("Não há reservas para os parâmetros informados.");
+            }
+            else {
+                for (Reserva reserva : encontradas) {
+                    System.out.println(reserva);
+                }
             }
         }
-    }
-    public static void realizarReserva(Data dtInicio, Data dtFim, String cliente, Quarto quarto) {
+    public static void realizarReserva() {
+        Data dtInicio = new Data(Teclado.leString("Informe a data inicial (dd/mm/aaaa): "));
+        Data dtFim = new Data(Teclado.leString("Informe a data final (dd/mm/aaaa): "));
+        String cliente =  Teclado.leString("Informe o nome do cliente: ");
+        Quarto quarto = pousada.getQuarto(Teclado.leInt("Informe o número do quarto: "));
+
         pousada.realizaReserva(dtInicio, dtFim, cliente, quarto);
     }
 
-    static void cancelarReserva(String cliente) {
+    static void cancelarReserva() {
+        String cliente =  Teclado.leString("Informe o nome do cliente: ");
+
         pousada.cancelaReserva(cliente);
     }
 
