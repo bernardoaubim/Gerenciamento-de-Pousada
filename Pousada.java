@@ -220,12 +220,52 @@ public class Pousada {
             System.out.println("Check-in ativo não encontrado para este cliente.");
         }
     }
+    public void listaProdutosDisponiveis() {
+        System.out.println("\n==== PRODUTOS DA COPA ====");
+
+        for (Produto produto : produtos) {
+            System.out.println(produto);
+        }
+    }
+    
+    public void registrarConsumo(String cliente, Produto produto) {
+        if (produto == null) {
+            System.out.println("Valor inválido.");
+            return;
+        }
+
+        Produto produtoDisponivel = getProduto(produto.getCodigo());
+
+        if (produtoDisponivel == null) {
+            System.out.println("Produto não disponivel na copa.");
+            return;
+        }
+
+        for (Reserva reserva : reservas) {
+            if (reserva.getCliente().equalsIgnoreCase(cliente) && reserva.getStatus() == 'I') {
+
+                Quarto quarto = reserva.getQuarto();
+
+                quarto.adicionaConsumo(produto);
+                System.out.println("Consumo adicionado com sucesso!");
+            }
+        }
+        System.out.println("Check-in ativo não encontrado para este cliente");
+    }
 
     //GetById porém N quarto é o id, logo numeros repitidos podem gerar erros
     public Quarto getQuarto(int numero) {
         for (Quarto q : quartos) {
             if (q.getNumero() == numero) {
                 return q;
+            }
+        }
+        return null;
+    }
+    public Produto getProduto(int codigo) {
+        for (Produto p : produtos) {
+            if (p.getCodigo() == codigo) {
+                return p;
             }
         }
         return null;
