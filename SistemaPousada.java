@@ -108,9 +108,17 @@ public class SistemaPousada {
         pousada.cancelaReserva(cliente);
     }
 
-    static void realizarCheckIn() {}
+    static void realizarCheckIn() {
+        String cliente = Teclado.leString("Informe o nome do cliente: ");
 
-    static void realizarCheckOut() {}
+        pousada.realizaCheckIn(cliente);
+    }
+
+    static void realizarCheckOut() {
+        String cliente = Teclado.leString("Informe o nome do cliente: ");
+
+        pousada.realizaCheckOut(cliente);
+    }
 
     static void registrarConsumo() {}
 
