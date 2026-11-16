@@ -1,13 +1,65 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 
 public class Pousada {
     private String nome;
     private String contato;
-    private ArrayList<Quarto> quartos;
-    private ArrayList<Reserva> reservas;
-    private ArrayList<Produto> produtos;
+    private ArrayList<Quarto> quartos = new ArrayList<>();
+    private ArrayList<Reserva> reservas = new ArrayList<>();
+    private ArrayList<Produto> produtos = new ArrayList<>();
+    private static String separador = "\t";
 
-    public void carregaDados() {}
+    public Pousada (String nome, String contato){
+        this.nome =  nome;
+        this.contato = contato;
+    }
+    
+    public Pousada (String linha){
+        deserializar(linha);
+    }
+
+    public void carregaDados() {
+        try { 
+            String linha;
+
+            FileReader reader1 = new FileReader("pousada.txt");
+            BufferedReader brPousada = new  BufferedReader(reader1);
+            brPousada.readLine();
+            deserializar(brPousada.readLine());
+            brPousada.close();
+
+            FileReader reader2 = new FileReader("produto.txt");
+            BufferedReader brProduto = new  BufferedReader(reader2);
+            brProduto.readLine();
+            while ((linha = brProduto.readLine()) != null) {
+                Produto produto = new Produto(linha);
+                produtos.add(produto);
+            }
+            brProduto.close();
+        
+            FileReader reader3 = new FileReader("quarto.txt");
+            BufferedReader brQuarto = new  BufferedReader(reader3);
+            brQuarto.readLine();
+            while ((linha = brQuarto.readLine()) != null) {
+                Quarto quarto = new Quarto(linha, produtos);
+                quartos.add(quarto);
+            }    
+            brQuarto.close();
+            
+            FileReader reader4 = new FileReader("reserva.txt");
+            BufferedReader brReserva = new  BufferedReader(reader4); 
+            brReserva.readLine(); 
+            while ((linha = brReserva.readLine()) != null) {  
+            Reserva reserva = new Reserva(linha, quartos);
+            reservas.add(reserva);
+            }
+            brReserva.close();
+        } 
+        catch (Exception e) {
+            System.out.println("Erro ao carregar arquivos: " + e.getMessage());        
+        }
+    }
     public void salvaDados() {}
     public boolean consultarDisponibilidade(Data data, Quarto quarto) {
 
@@ -83,14 +135,18 @@ public class Pousada {
     public void realizaCheckIn(String cliente) {}
     public void realizaCheckOut(String cliente) {}
 
-
     //GetById porém N quarto é o id, logo numeros repitidos podem gerar erros
     public Quarto getQuarto(int numero) {
-    for (Quarto q : quartos) {
-        if (q.getNumero() == numero) {
-            return q;
+        for (Quarto q : quartos) {
+            if (q.getNumero() == numero) {
+                return q;
+            }
         }
+        return null;
     }
-    return null;
-}
+    public void deserializar(String linha) {
+        String[] campos = linha.split(separador);
+        nome = campos[0];
+        contato = campos[1];
+    }
 }

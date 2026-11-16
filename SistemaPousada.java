@@ -1,11 +1,9 @@
 import java.util.ArrayList;
 
 public class SistemaPousada {
-    static Pousada pousada = new Pousada();
-
-    
+    static Pousada pousada = new Pousada("Nome", "Contato");
     public static void main(String[] args) {
-
+    
         pousada.carregaDados();
 
         int opcao = -1;
@@ -83,7 +81,6 @@ public class SistemaPousada {
                 case 8:
                     salvar();
                     break;
-
                
                 case 0:
                     pousada.salvaDados();
@@ -97,7 +94,6 @@ public class SistemaPousada {
         }
     }
     public static void consultarDisponibilidade(Data data, Quarto quarto) {
-
         if (pousada.consultarDisponibilidade(data, quarto)){
            System.out.println("Quarto disponível. Seguem os respectivos dados:");
            quarto.exibeDadosQ();

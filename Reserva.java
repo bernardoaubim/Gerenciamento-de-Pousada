@@ -53,7 +53,6 @@ public class Reserva {
         return null;
     }
 
-
     public int getQuantidadeDias() {
         return dtInicio.diasAte(dtFim) + 1; // + 1 pq estamos considerando o dia do checkout como dia reservado
     }
