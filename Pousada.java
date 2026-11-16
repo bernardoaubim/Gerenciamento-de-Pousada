@@ -131,7 +131,28 @@ public class Pousada {
         }
         System.out.println("Reserva não encontrada. Verifique o nome do titular.");
     }
-    public void realizaCheckIn(String cliente) {}
+    public void realizaCheckIn(String cliente) {
+        boolean jaRealizouCheckIn = false;
+
+        for (Reserva reserva : reservas) {
+            if (reserva.getCliente().equalsIgnoreCase(cliente)) {
+                if (reserva.getStatus() == 'A') {
+                    reserva.setStatus('I');
+                    System.out.println("Check-in realizado com sucesso!");
+                    return;
+                }
+                if (reserva.getStatus() == 'I') {
+                    jaRealizouCheckIn = true;
+                }
+            }
+        }
+
+        if (jaRealizouCheckIn) {
+            System.out.println("Cliente já realizou o check-in.");
+        } else {
+            System.out.println("Reserva ativa não encontrada para este cliente.");
+        }
+    }
     public void realizaCheckOut(String cliente) {}
 
     //GetById porém N quarto é o id, logo numeros repitidos podem gerar erros
