@@ -138,6 +138,19 @@ public class Pousada {
             if (reserva.getCliente().equalsIgnoreCase(cliente)) {
                 if (reserva.getStatus() == 'A') {
                     reserva.setStatus('I');
+
+                    System.out.println("\n==== CHECK-IN ====");
+
+                    System.out.println("Data de inicio: " + reserva.getDtInicio());
+                    System.out.println("Data de fim: " + reserva.getDtFim());
+                    System.out.println("Quantidade de dias: " + reserva.getQuantidadeDias());
+
+                    System.out.printf("Valor total das diarias: R$ %.2f%n", reserva.valorTotalDiarias() );
+
+                    System.out.println("\nDados dos quartos");
+                    reserva.getQuarto().exibeDadosQ();
+
+
                     System.out.println("Check-in realizado com sucesso!");
                     return;
                 }
@@ -152,8 +165,61 @@ public class Pousada {
         } else {
             System.out.println("Reserva ativa não encontrada para este cliente.");
         }
+        }
+
+        if (jaRealizouCheckIn) {
+            System.out.println("Cliente já realizou o check-in.");
+        } else {
+            System.out.println("Reserva ativa não encontrada para este cliente.");
+        }
     }
-    public void realizaCheckOut(String cliente) {}
+    public void realizaCheckOut(String cliente) {
+        boolean jaRealizouCheckOut = false;
+
+        for (Reserva reserva : reservas) {
+            if (reserva.getCliente().equalsIgnoreCase(cliente)) {
+                if (reserva.getStatus() == 'I') {
+                    
+                    Quarto quarto = reserva.getQuarto();
+
+                    int quantidadeDias = reserva.getQuantidadeDias();
+                    double valorDiaria = reserva.valorTotalDiarias();
+                    double valorConsumo = quarto.valorTotalConsumo();
+
+
+                    System.out.println("\n==== CHECK-OUT ====");
+
+                    System.out.println("Data de inicio: " + reserva.getDtInicio());
+                    System.out.println("Data final: " + reserva.getDtFim());
+                    System.out.println("Quantidade de dias: " + quantidadeDias);
+                    System.out.printf("Valor das diarias: R$ %.2f%n" + valorDiaria);
+
+                    System.out.println("\nConsumo:");
+                    quarto.listaConsumo();
+                    System.out.printf("Valor total dos consumos: R$ %.2f%n", valorConsumo);
+
+                    double valorTotal = valorDiaria + valorConsumo;
+
+                    System.out.printf("\nValor Total a pagar: R$ %.2f%n", valorTotal);
+
+                    reserva.setStatus('0');
+                    quarto.limpaConsumo();
+
+                    System.out.println("Check-out realizado com sucesso!");
+
+                    return;
+                }
+                if (reserva.getStatus() == '0' {
+                    System.out.println("Cliente já realizou o check-out.");
+                }
+            }
+        }
+        if (jaRealizouCheckOut) {
+            System.out.println("Cliente ja realizou check-out.");
+        } else {
+            System.out.println("Check-in ativo não encontrado para este cliente.");
+        }
+    }
 
     //GetById porém N quarto é o id, logo numeros repitidos podem gerar erros
     public Quarto getQuarto(int numero) {
