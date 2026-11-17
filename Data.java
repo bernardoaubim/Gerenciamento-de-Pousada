@@ -48,7 +48,7 @@ public class Data {
     }
 
     public void setAno(int ano) {
-        if (ano < 1)
+        if (ano < 2026)
             throw new IllegalArgumentException("Ano inválido: " + ano);
         this.ano = ano;
     }
