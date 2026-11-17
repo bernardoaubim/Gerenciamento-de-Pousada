@@ -135,7 +135,7 @@ public class Pousada {
         }
 
         for (Reserva reserva : reservas) {
-            if (reserva.getStatus() == 'A'
+            if (reserva.estaVigente()
                     && (data == null || reserva.ocupaData(data))
                     && (cliente == null || reserva.getCliente().equalsIgnoreCase(cliente))
                     && (quarto == null || reserva.getQuarto().getNumero() == quarto.getNumero())) {
