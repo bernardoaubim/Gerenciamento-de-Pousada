@@ -25,7 +25,6 @@ public class Reserva {
                 + "quarto" + separador + "status";
     }
 
-
     public String serializar() {
         return System.lineSeparator()
                 + dtInicio.serializar() + separador
@@ -61,12 +60,10 @@ public class Reserva {
         return getQuantidadeDias() * quarto.getDiaria();
     }
 
- 
     public boolean estaVigente() {
         return status == 'A' || status == 'I';
     }
 
-  
     public boolean ocupaData(Data data) {
         return estaVigente()
                 && data.comparaCom(dtInicio) >= 0
@@ -78,7 +75,6 @@ public class Reserva {
                 && novoInicio.comparaCom(dtFim) <= 0
                 && novoFim.comparaCom(dtInicio) >= 0;
     }
-
 
     public Data getDtInicio() {
         return dtInicio;

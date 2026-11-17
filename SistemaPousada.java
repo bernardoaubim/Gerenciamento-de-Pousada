@@ -97,8 +97,8 @@ public class SistemaPousada {
         String textoData = Teclado.leString("Informe a data ou Enter para ignorar: ");
         Data data = textoData.trim().isEmpty() ? null : new Data(textoData);
 
-        String cliente = Teclado.leString("Informe o nome do cliente ou Enter para ignorar: ");
-        if (cliente.trim().isEmpty())
+        String cliente = lerNomeCliente("Informe o nome do cliente ou Enter para ignorar: ");
+        if (cliente.isEmpty())
             cliente = null;
 
         String textoQuarto = Teclado.leString("Informe o número do quarto ou Enter para ignorar: ");
@@ -109,6 +109,11 @@ public class SistemaPousada {
                 System.out.println("Quarto não encontrado.");
                 return;
             }
+        }
+
+        if (data == null && cliente == null && quarto == null) {
+            System.out.println("Informe ao menos um parâmetro para consulta.");
+            return;
         }
 
         ArrayList<Reserva> encontradas = pousada.consultaReserva(data, cliente, quarto);
@@ -124,29 +129,29 @@ public class SistemaPousada {
     public static void realizarReserva() {
         Data dtInicio = new Data(Teclado.leString("Informe a data inicial (dd/mm/aaaa): "));
         Data dtFim = new Data(Teclado.leString("Informe a data final (dd/mm/aaaa): "));
-        String cliente = Teclado.leString("Informe o nome do cliente: ");
+        String cliente = lerNomeCliente("Informe o nome do cliente: ");
         Quarto quarto = pousada.getQuarto(Teclado.leInt("Informe o número do quarto: "));
 
         pousada.realizaReserva(dtInicio, dtFim, cliente, quarto);
     }
 
     static void cancelarReserva() {
-        String cliente = Teclado.leString("Informe o nome do cliente: ");
+        String cliente = lerNomeCliente("Informe o nome do cliente: ");
         pousada.cancelaReserva(cliente);
     }
 
     static void realizarCheckIn() {
-        String cliente = Teclado.leString("Informe o nome do cliente: ");
+        String cliente = lerNomeCliente("Informe o nome do cliente: ");
         pousada.realizaCheckIn(cliente);
     }
 
     static void realizarCheckOut() {
-        String cliente = Teclado.leString("Informe o nome do cliente: ");
+        String cliente = lerNomeCliente("Informe o nome do cliente: ");
         pousada.realizaCheckOut(cliente);
     }
 
     static void registrarConsumo() {
-        String cliente = Teclado.leString("Informe o nome do cliente: ");
+        String cliente = lerNomeCliente("Informe o nome do cliente: ");
 
         if (pousada.buscaReservaEmCheckIn(cliente) == null) {
             System.out.println("Check-in ativo não encontrado para este cliente.");
@@ -158,5 +163,13 @@ public class SistemaPousada {
         Produto produto = pousada.getProduto(codigo);
 
         pousada.registrarConsumo(cliente, produto);
+    }
+
+    private static String lerNomeCliente(String mensagem) {
+        String nome = Teclado.leString(mensagem);
+        if (nome == null) {
+            return "";
+        }
+        return nome.trim();
     }
 }

@@ -150,6 +150,11 @@ public class Pousada {
             System.out.println("Quarto não encontrado. Verifique parâmetros.");
             return;
         }
+
+        // Cria a reserva antes de checar conflitos: os setters validam as datas e o
+        // nome do cliente, lançando IllegalArgumentException se algo estiver inválido
+        Reserva novaReserva = new Reserva(dtInicio, dtFim, cliente, quarto, 'A');
+
         for (Reserva r : reservas) {
             if (r.getQuarto().getNumero() == quarto.getNumero()
                     && r.ocupaPeriodo(dtInicio, dtFim)) {
@@ -161,7 +166,7 @@ public class Pousada {
                 return;
             }
         }
-        Reserva novaReserva = new Reserva(dtInicio, dtFim, cliente, quarto, 'A');
+
         reservas.add(novaReserva);
         dadosAlterados = true;
         System.out.println("Reserva efetuada com sucesso.");
